@@ -5,15 +5,27 @@ public class Main {
 public static double CurrentEarnedPoints(double gpa,int creditsCompleted) {//helper method for possible future report
 	return gpa * creditsCompleted ;
 }
+public static double RequiredPoint(double desiredGpa,int desiredEarnedCredit,double currentGpa,int currentEarnedCredit) {
+	return (desiredGpa * desiredEarnedCredit) - (currentGpa * currentEarnedCredit);
+}
+public static double RequiredSemesterGpa(double requiredPoint,int semesterCredit) {
+	return requiredPoint / semesterCredit;
+}
+public static boolean controlDesiredGpa(double current, double desired) {
+    return current >= desired;
+}
+
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
 	       int choice;
 		
-	   System.out.println("====================================================================");
- 	   System.out.println("|   Press 1 To See Current Curriculum Compliance Report            |");
- 	   System.out.println("|   Press 2 To See Possible Future Curriculum Compliance Report    |");
- 	   System.out.println("====================================================================");
+	   System.out.println("========================================================================================================");
+ 	   System.out.println("|   Press 1 To See Current Curriculum Compliance Report                                                |");
+ 	   System.out.println("|   Press 2 To See Possible Future Curriculum Compliance Report                                        |");
+ 	   System.out.println("|   Press 3 To See Minimum Letter Grades You Have To Take For Per Course To Reach Satisfactory Limit   |");
+ 	   System.out.println("========================================================================================================");
 		
  	  System.out.println("");
 	   System.out.print("Choice: ");
@@ -88,7 +100,7 @@ public static double CurrentEarnedPoints(double gpa,int creditsCompleted) {//hel
 	
         
         
-        
+      
      
         gpa.ccr();
 	
@@ -128,15 +140,72 @@ public static double CurrentEarnedPoints(double gpa,int creditsCompleted) {//hel
            System.out.println("-------------------------------------------------------------");
            System.out.println("       FUTURE CURRICULUM COMPLIANCE REPORT       ");
            System.out.println("-------------------------------------------------------------");
-           System.out.printf("Current GPA(±1): %.2f\n", newGpa);
+           System.out.printf("Current GPA(Â±1): %.2f\n", newGpa);
            System.out.println("Total Number of Credits Earned: " + cearned);
            
            System.out.println("-------------------------------------------------------------");
            sc2.close();
            break;
+	   case 3 : 
+		   
+		   GPA semesterGpa = new GPA();
+		   
+		   Scanner sc3 = new Scanner(System.in);
+           System.out.println("Please Enter Desired GPA After The End Of Next Semester: ");
+		   double desiredGpa = sc3.nextDouble();
+		   System.out.println("Please Enter Estimated Total Completed Credits After The End Of Next Semester: ");
+		   int creditTotalDesired = sc3.nextInt();
+		   System.out.println("Please Enter Your Current GPA: ");
+		   double curr_Gpa = sc3.nextDouble();
+		   System.out.println("Please Enter Current Completed Credits: ");
+		   int currCompletedCredit = sc3.nextInt();		   
+		   double neededPoint = RequiredPoint(desiredGpa,creditTotalDesired,curr_Gpa,currCompletedCredit);
+		   int semCredit = creditTotalDesired - currCompletedCredit;		  
+		   double minReqSemGpa = RequiredSemesterGpa(neededPoint,semCredit);		   
+		   System.out.println("You Must Earn Minimum "+neededPoint+" Points To Satistify Probation Condition For Next Semester ");
+		   System.out.printf("Minimum Required Semester GPA to Satistify Probation Condition: %.2f\n ", minReqSemGpa);
+		   System.out.println("Enter The Number Of Courses You Will Take Next Semester : ");
+		   int size = sc.nextInt();
 
+		   System.out.println("Enter The Credits Of The Courses That You Will Take: " );
+		   String initialLetterGrades[] = new String[size];
+		   int semCredts[] = new int[size];
+		   String courseNames [] = new String[size];
+		   for (int i = 0 ; i<size; i++) {
+			   initialLetterGrades[i]="DD";
+			   courseNames[i]="Course "+(i+1);
+			   System.out.println("Course "+(i+1)  +" Credit = ");
+			   semCredts[i]=sc.nextInt(); 
+		   semesterGpa.addCourse(courseNames[i], initialLetterGrades[i], semCredts[i]);
+
+		   }
+		   for(int i = 0 ; i<size && semesterGpa.calculateGpa() < minReqSemGpa;i++) {
+			   if(semesterGpa.calculateGpa()<minReqSemGpa) {
+					semesterGpa.changeLetterGrade(semesterGpa,courseNames[i],semesterGpa.IncrementLetterGrade(initialLetterGrades[i]));
+
+			   }
+			   
+		   }
+
+		  String[] changedLetterGrades= semesterGpa.getLetterGradesOfCourses(semesterGpa);
+		 for(int i = 0 ; i<size ;i++) {
+			 if( semesterGpa.calculateGpa() < minReqSemGpa) {
+				 semesterGpa.changeLetterGrade(semesterGpa,courseNames[i],semesterGpa.IncrementLetterGrade(changedLetterGrades[i])); 
+			 }else {
+				 break;
+				 
+			 }
+		 }
+		 
+		 System.out.println("Taken Courses And Minimum Required Letter Grades Per Course To Satistify Probation Condition ");  
+		 semesterGpa.printCourses();
+		 System.out.printf("Minimum Semester GPA To Satistify Probation Limit: %.2f\n", semesterGpa.calculateGpa() );
+		   
+		   sc3.close();
+           break;
+           
        default:
-           System.out.println("Invalid Choice... Please Press 1 or 2!");
+           System.out.println("Invalid Choice...");
    }
 	   sc.close();
    
