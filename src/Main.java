@@ -151,7 +151,7 @@ public static boolean controlDesiredGpa(double current, double desired) {
 		   GPA semesterGpa = new GPA();
 		   
 		   Scanner sc3 = new Scanner(System.in);
-           System.out.println("Please Enter Desired GPA After The End Of Next Semester: ");
+           System.out.println("Please Enter Desired GPA Or Required GPA : ");
 		   double desiredGpa = sc3.nextDouble();
 		   System.out.println("Please Enter Estimated Total Completed Credits After The End Of Next Semester: ");
 		   int creditTotalDesired = sc3.nextInt();
@@ -162,8 +162,8 @@ public static boolean controlDesiredGpa(double current, double desired) {
 		   double neededPoint = RequiredPoint(desiredGpa,creditTotalDesired,curr_Gpa,currCompletedCredit);
 		   int semCredit = creditTotalDesired - currCompletedCredit;		  
 		   double minReqSemGpa = RequiredSemesterGpa(neededPoint,semCredit);		   
-		   System.out.println("You Must Earn Minimum "+neededPoint+" Points To Satistify Probation Condition For Next Semester ");
-		   System.out.printf("Minimum Required Semester GPA to Satistify Probation Condition: %.2f\n ", minReqSemGpa);
+		   System.out.println("You Must Earn Minimum "+neededPoint+" Points To Achieve The Required Status For Next Semester ");
+		   System.out.printf("Minimum Required Semester GPA to Achieve The Required Status: %.2f\n ", minReqSemGpa);
 		   System.out.println("Enter The Number Of Courses You Will Take Next Semester : ");
 		   int size = sc.nextInt();
 
@@ -197,9 +197,9 @@ public static boolean controlDesiredGpa(double current, double desired) {
 			 }
 		 }
 		 
-		 System.out.println("Taken Courses And Minimum Required Letter Grades Per Course To Satistify Probation Condition ");  
+		 System.out.println("Taken Courses And Minimum Required Letter Grades Per Course To Achieve The Required Status ");  
 		 semesterGpa.printCourses();
-		 System.out.printf("Minimum Semester GPA To Satistify Probation Limit: %.2f\n", semesterGpa.calculateGpa() );
+		 System.out.printf("Minimum Semester GPA To Achieve The Required Status: %.2f\n", semesterGpa.calculateGpa() );
 		   
 		   sc3.close();
            break;
