@@ -149,7 +149,7 @@ public void ccr() {
     System.out.println("                   CURRICULUM COMPLIANCE REPORT               ");
     System.out.println("-------------------------------------------------------------");
     System.out.println("Name Surname: Arda BARAN");
-    System.out.println("Student No: 19172802022");
+    System.out.println("Student No: ************");
     System.out.println("Faculty / Institute: Faculty of Engineering");
     System.out.println("Program: Computer Engineering (Vers: 2021)");
     System.out.println("Registration Date: 26.01.2022");
