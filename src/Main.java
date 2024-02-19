@@ -69,8 +69,8 @@ public static boolean controlDesiredGpa(double current, double desired) {
         
 	
         //Semester5
-        gpa.addCourse("CMPE 371", "FF", 3);
-        gpa.addCourse("CMPE 101", "CB", 3);
+        gpa.addCourse("CMPE 371", "FF", 3);// can be changed by applying this method such as gpa.changeLetterGrade(gpa,"CMPE 371","DD") next terms when you re-take
+        gpa.addCourse("CMPE 101", "CB", 3);                         //and pass the course...
         
 	
 	
