@@ -55,7 +55,15 @@ public GPA changeLetterGrade(GPA gpa,String c_name,String l_grade) {//this funct
 	}
 return gpa;
 }
-	
+	public int NumOfCoursesTaken() {
+	int size = 0;
+	Course curr = course;
+	while(curr!=null) {
+		size = size+1;
+	     curr=curr.getNext();
+	}
+	return size;
+	}
 	public double calculateGpa() {//calculates overall gpa.
 	
 	int creditAttemp=0;
@@ -75,6 +83,27 @@ return gpa;
     return achievedPoints / creditAttemp;
 
 }
+	public String IncrementLetterGrade(String letterGrade) {
+		switch(letterGrade) {
+			
+		case "DD": 
+			return "DC";
+		case "DC":
+			return "CC";
+		case "CC":
+			return "CB";
+		case "CB":
+			return "BB";
+		case "BB":
+			return "BA";
+		case "BA":
+		return "AA";
+		default:
+			return letterGrade;
+		
+		}
+	}
+
 public double convertLetterGradeToNumericGrade(String letterGrade) {
 	switch(letterGrade) {
 	case "AA":
@@ -176,5 +205,38 @@ public void satisfactoryPrint() {
 	}else {
 		System.out.println("Probation Status: Unsatisfactory");
 	}
+}
+public String [] getLetterGradesOfCourses(GPA gpa) {
+	String [] lettergrades = new String[gpa.NumOfCoursesTaken()];
+	if(gpa.course==null) {
+		return null;
+	}
+	
+	if(gpa.course.getLetterGrade().equals("FF")
+			||gpa.course.getLetterGrade().equals("DD")||
+			gpa.course.getLetterGrade().equals("DC")||
+			gpa.course.getLetterGrade().equals("CC")||
+			gpa.course.getLetterGrade().equals("CB")||
+			gpa.course.getLetterGrade().equals("BB")||
+			gpa.course.getLetterGrade().equals("BA")||
+			gpa.course.getLetterGrade().equals("AA")) {
+		
+		lettergrades[0] = gpa.course.getLetterGrade();
+			
+	}
+	Course curr = course;
+	int i = 0;
+	while(curr!=null && i < gpa.NumOfCoursesTaken()) {
+		if(curr.getLetterGrade().equals("FF")||curr.getLetterGrade().equals("DD")||
+				curr.getLetterGrade().equals("DC")||curr.getLetterGrade().equals("CC")||
+				curr.getLetterGrade().equals("CB")||curr.getLetterGrade().equals("BB")||
+				curr.getLetterGrade().equals("BA")||curr.getLetterGrade().equals("AA")) {
+			lettergrades[i]=curr.getLetterGrade();
+		}
+		curr= curr.getNext();
+		i++;
+		
+	}
+	return lettergrades;
 }
 }
