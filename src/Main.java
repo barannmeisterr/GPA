@@ -146,9 +146,21 @@ public static boolean controlDesiredGpa(double current, double desired) {
            System.out.println("-------------------------------------------------------------");
            sc2.close();
            break;
-	   case 3 : 
+
+	   case 3:
 		   
-		   GPA semesterGpa = new GPA();
+		  //-----------------------------------------------------
+		 // Description : this part calculates the worst possible scenerio to reach desired GPA.For example your GPA is 1.72  and 
+		//           you completed 80 credits .You want to make your gpa 1.70 and you will take 18 credits next semester.
+	   //If your gpa is below 1.70 that means that you can not take any new compulsory course that leads to out-of-course.
+	  //This parts show you worst case scenerio and minimum letter grades for per course to achieve required or desired status.
+		   
+		   
+			//-----------------------------------------------------
+			
+		   
+		   
+		  GPA semesterGpa = new GPA();
 		   
 		   Scanner sc3 = new Scanner(System.in);
            System.out.println("Please Enter Desired GPA Or Required GPA : ");
@@ -159,51 +171,43 @@ public static boolean controlDesiredGpa(double current, double desired) {
 		   double curr_Gpa = sc3.nextDouble();
 		   System.out.println("Please Enter Current Completed Credits: ");
 		   int currCompletedCredit = sc3.nextInt();		   
+		  
 		   double neededPoint = RequiredPoint(desiredGpa,creditTotalDesired,curr_Gpa,currCompletedCredit);
 		   int semCredit = creditTotalDesired - currCompletedCredit;		  
-		   double minReqSemGpa = RequiredSemesterGpa(neededPoint,semCredit);		   
-		   System.out.println("You Must Earn Minimum "+neededPoint+" Points To Achieve The Required Status For Next Semester ");
+		   double minReqSemGpa = RequiredSemesterGpa(neededPoint,semCredit);//minimum required SPA to reach target GPA.		   
+		  
+		   System.out.printf("Minimum Required Semester Points to Achieve The Required Status: %.2f\n ",neededPoint);
 		   System.out.printf("Minimum Required Semester GPA to Achieve The Required Status: %.2f\n ", minReqSemGpa);
 		   System.out.println("Enter The Number Of Courses You Will Take Next Semester : ");
-		   int size = sc.nextInt();
-
-		   System.out.println("Enter The Credits Of The Courses That You Will Take: " );
-		   String initialLetterGrades[] = new String[size];
+		   int size = sc3.nextInt();
 		   int semCredts[] = new int[size];
 		   String courseNames [] = new String[size];
+		   
+		   System.out.println("Enter The Credits Of The Courses That You Will Take: " );   
 		   for (int i = 0 ; i<size; i++) {
-			   initialLetterGrades[i]="DD";
 			   courseNames[i]="Course "+(i+1);
-			   System.out.println("Course "+(i+1)  +" Credit = ");
-			   semCredts[i]=sc.nextInt(); 
-		   semesterGpa.addCourse(courseNames[i], initialLetterGrades[i], semCredts[i]);
+			   System.out.println("Course "+(i+1)  +" Credit: ");
+			   semCredts[i]=sc3.nextInt(); 
+		   semesterGpa.addCourse(courseNames[i], "DD", semCredts[i]);
 
-		   }
-		   for(int i = 0 ; i<size && semesterGpa.calculateGpa() < minReqSemGpa;i++) {
-			   if(semesterGpa.calculateGpa()<minReqSemGpa) {
-					semesterGpa.changeLetterGrade(semesterGpa,courseNames[i],semesterGpa.IncrementLetterGrade(initialLetterGrades[i]));
-
-			   }
-			   
-		   }
-
-		  String[] changedLetterGrades= semesterGpa.getLetterGradesOfCourses(semesterGpa);
-		 for(int i = 0 ; i<size ;i++) {
-			 if( semesterGpa.calculateGpa() < minReqSemGpa) {
-				 semesterGpa.changeLetterGrade(semesterGpa,courseNames[i],semesterGpa.IncrementLetterGrade(changedLetterGrades[i])); 
-			 }else {
-				 break;
-				 
-			 }
-		 }
-		 
+		   }		
+do {
+	for(int i = 0 ; i<size;i++) {
+		String[] updatedLetterGrades=semesterGpa.getLetterGradesOfCourses(semesterGpa);//gets worst letter grades which is DD and it is enough to pass the course
+	if(semesterGpa.calculateGpa()<minReqSemGpa) {
+		semesterGpa.changeLetterGrade(semesterGpa, courseNames[i], semesterGpa.IncrementLetterGrade(updatedLetterGrades[i]));
+//this part increments the grades untill the condition is satistified.
+	}
+	}
+	
+}while(semesterGpa.calculateGpa()<minReqSemGpa);//exits the loop if condition is satistified.
+		   
 		 System.out.println("Taken Courses And Minimum Required Letter Grades Per Course To Achieve The Required Status ");  
 		 semesterGpa.printCourses();
 		 System.out.printf("Minimum Semester GPA To Achieve The Required Status: %.2f\n", semesterGpa.calculateGpa() );
 		   
 		   sc3.close();
-           break;
-           
+           break;		   
        default:
            System.out.println("Invalid Choice...");
    }
@@ -211,5 +215,4 @@ public static boolean controlDesiredGpa(double current, double desired) {
    
 	}
 }
-
    
