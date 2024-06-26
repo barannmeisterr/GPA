@@ -1,4 +1,5 @@
 
+
 public class GPA {
 	//-----------------------------------------------------
 	// Title: Course class
@@ -149,7 +150,7 @@ public void ccr() {
     System.out.println("                   CURRICULUM COMPLIANCE REPORT               ");
     System.out.println("-------------------------------------------------------------");
     System.out.println("Name Surname: Arda BARAN");
-    System.out.println("Student No: ************");
+    System.out.println("Student No: 19172802022");
     System.out.println("Faculty / Institute: Faculty of Engineering");
     System.out.println("Program: Computer Engineering (Vers: 2021)");
     System.out.println("Registration Date: 26.01.2022");
@@ -196,7 +197,7 @@ public boolean checkSatisfactory() {
 	double gno = calculateGpa();
 	
 	int earnedCredit = totalNumOfCreditsEarned();
-	return (Math.round(gno) >= probationLimit(earnedCredit));
+	return (gno >= probationLimit(earnedCredit));
 }
 public void satisfactoryPrint() {
 	System.out.println("");
@@ -237,6 +238,49 @@ public String [] getLetterGradesOfCourses(GPA gpa) {
 		i++;
 		
 	}
+	
 	return lettergrades;
+}
+public String[] getCourseNamesFromTranscript(GPA gpa){
+	String [] cnames = new String[gpa.NumOfCoursesTaken()];
+	if(gpa.course==null) {
+		return null;
+	}
+		if(gpa.course!=null && gpa.NumOfCoursesTaken()==1) {
+			cnames[0]=gpa.course.getCourseName();
+		}
+Course curr = course;
+int i = 0;
+while(curr!=null&& i < gpa.NumOfCoursesTaken()) {
+
+	cnames[i]=curr.getCourseName();
+	curr= curr.getNext();
+	i++;
+}
+return cnames;
+}
+public int[] getCourseCreditsFromTranscript(GPA gpa) {
+	int [] creds = new int[gpa.NumOfCoursesTaken()];
+	if(gpa.course==null) {
+		return null;
+	}
+		if(gpa.course!=null && gpa.NumOfCoursesTaken()==1) {
+			creds[0]=gpa.course.getCreditOfCourse();
+		}
+		Course curr = course;
+		int i = 0;
+		while(curr!=null&& i < gpa.NumOfCoursesTaken()) {
+
+			creds[i]=curr.getCreditOfCourse();
+			curr= curr.getNext();
+			i++;
+		}
+		return creds;
+
+}
+public void updateLetterGrades(String[] courseNames, String[] newLetterGrades) {
+    for (int i = 0; i < courseNames.length; i++) {
+        changeLetterGrade(this, courseNames[i], newLetterGrades[i]);
+    }
 }
 }
